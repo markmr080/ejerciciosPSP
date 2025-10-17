@@ -17,7 +17,7 @@ public class Alumno implements Runnable {
 	public void run() {				
 		for(int i= 0; i<5; i++) {			
 		  if (this.mensaje.equals("No quiero empezar con la letra A")) {
-			  System.out.println(getMensaje());
+			  System.out.println(mensaje);
 			  return;
 		  }else {
 			System.out.println(mensaje + (i+1));			
