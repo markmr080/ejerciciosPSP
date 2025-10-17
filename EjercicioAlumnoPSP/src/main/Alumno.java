@@ -6,7 +6,7 @@ public class Alumno implements Runnable {
 	String mensaje;
 	
 	public Alumno (String nombre) {
-		if (nombre.startsWith("a")) {
+		if (nombre.toLowerCase().startsWith("a")) {
 			this.mensaje = "No quiero empezar con la letra A";
 		}else {
 			this.mensaje= "Hola soy " + nombre + " y este es mi mensaje numero: ";	
@@ -14,16 +14,13 @@ public class Alumno implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		
-		
-		for(int i= 0; i<5; i++) {
-			
+	public void run() {				
+		for(int i= 0; i<5; i++) {			
 		  if (this.mensaje.equals("No quiero empezar con la letra A")) {
 			  System.out.println(getMensaje());
 			  return;
 		  }else {
-			System.out.println(getMensaje() + (i+1));			
+			System.out.println(mensaje + (i+1));			
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {

@@ -21,12 +21,13 @@ public class Main {
 		nombre = sc.nextLine();
 		Thread c = new Thread(new Alumno(nombre));
 		
-		try {
-			
+		try {		
 			a.start();
 			a.join();
+			
 			b.start();
 			b.join();
+			
 			c.start();
 			c.join();
 		} catch (InterruptedException e) {
