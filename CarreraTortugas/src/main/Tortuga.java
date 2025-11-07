@@ -20,21 +20,26 @@ public class Tortuga implements Runnable{
 	@Override
 	public void run() {
 		
-		for (int i = 0; i<20; i++) {			
-			if (i==10) {
-					try {
-						semaphore.acquire();
-						System.out.println(nombre + " entro al tunel");
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-			}else if(i==16) {
+		for (int i = 0; i<35; i++) {			
+			if (i==20) {
+				if (semaphore.tryAcquire()==false) {
+				     System.out.println(this.nombre + " está esperando para entrar al túnel...");
+				       try {
+				         semaphore.acquire(); 
+				         System.out.println(this.nombre + " adquirió el ticket único y entró al túnel");			            
+				        }catch (InterruptedException e) {
+				           e.printStackTrace();
+				        }
+				} else 
+				  System.out.println(this.nombre + " adquirió el ticket único y entró al túnel");
+				}	
+			
+				if(i==30) {
 					semaphore.release();
-					System.out.println(nombre + " salio del tunel");
+					System.out.println(this.nombre + " salio del tunel. ¡Se acerca la recta final!");
+					System.out.println("");
 			}
-			correr();
+			correr(); 
 			
 			try {
 				Thread.sleep(1000);
@@ -44,9 +49,19 @@ public class Tortuga implements Runnable{
 			}
 		}
 		
-					
+		System.out.println(this.nombre + " ha terminado la carrera");			
 	}
 			
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
 	public void correr() {
 		this.distanciaRecorrida = this.distanciaRecorrida + this.velocidad;
 		System.out.println(nombre + " lleva recorridos " + distanciaRecorrida + " metros");
