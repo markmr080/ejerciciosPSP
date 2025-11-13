@@ -8,9 +8,12 @@ public class Main {
 		// TODO Auto-generated method stub
 		Semaphore a = new Semaphore(1);
 		
-		Thread b = new Thread(new Carrera (a ,"pajaro"));
+		Thread b = new Thread(new Carrera (a, new Pajaro("Pajaro")));
+		Thread c = new Thread(new Carrera (a, new Liebre("Liebre")));
 		
 		b.start();
+		c.start();
+		
 
 	}
 

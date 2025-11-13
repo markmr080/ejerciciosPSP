@@ -7,22 +7,25 @@ import java.util.concurrent.Semaphore;
 //Pajaro no puede empezar volando al reves. Conseguir que si el pajaro esta volando al contrario si el viento sopla a favor le reste velocidad y si sopla el contra le sume. Vease que si se da la vuelta y viento
 //esta a favor la velocidad sea -5 en vez menos 10, y si esta en contra sea -15
 
-public class Pajaro implements Runnable{
+public class Pajaro extends Animal{
 		
 	private int velocidad = 3;
 	private boolean volar = false;
 	Semaphore tunel;
 	private boolean volarARL;
 	int distanciaRecorrida = 0;	
+	String nombre;
 	
-	
-	public Pajaro() {
-		super();
+	public Pajaro(String nombre) {
+		super(nombre);
+		this.nombre = nombre;
 	}
-
-	public void volar () {		
-		int iniciarVolar = (int) (Math.random() * 10) + 1;
+	@Override
+	public void correr () {		
+		System.out.println("Pajaro corre en el sitio");
 		
+	/*	
+		int iniciarVolar = (int) (Math.random() * 10) + 1;		
 		if (iniciarVolar > 3 ) {
 			this.volar = true;
 			int volarAlContrario = (int) (Math.random() * 10) + 1;			
@@ -45,22 +48,14 @@ public class Pajaro implements Runnable{
 			this.velocidad = 3;
 			this.distanciaRecorrida+=velocidad;
 			System.out.println("Distancia recorrida " + distanciaRecorrida + " metros");
-		}			
+		}		
+		*/	
 		
 	}
 	
-	public boolean viento () {
-		int direccionViento = (int) Math.random();
-		boolean viento = false;
-		if (direccionViento == 1) {
-			viento = true;
-			return viento;
-		}else {
-			return viento;
-		}	
-	}
 	
-
+	
+/*
 
 	@Override
 	public void run() {		
@@ -83,7 +78,7 @@ public class Pajaro implements Runnable{
 				System.out.println("Pajaro salio del tunel");
 			}
 		//Carrera general	
-			volar();
+			correr();
 			
 			try {
 				Thread.sleep(500);
@@ -94,4 +89,5 @@ public class Pajaro implements Runnable{
 		}
 		
 	}
+*/
 }
