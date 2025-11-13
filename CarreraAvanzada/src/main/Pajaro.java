@@ -8,18 +8,16 @@ import java.util.concurrent.Semaphore;
 //esta a favor la velocidad sea -5 en vez menos 10, y si esta en contra sea -15
 
 public class Pajaro implements Runnable{
-	
-	
+		
 	private int velocidad = 3;
 	private boolean volar = false;
 	Semaphore tunel;
-	private boolean volarEnSentidoContrario;
+	private boolean volarARL;
 	int distanciaRecorrida = 0;	
 	
 	
-	public Pajaro(Semaphore tunel) {
+	public Pajaro() {
 		super();
-		this.tunel = tunel;
 	}
 
 	public void volar () {		
@@ -27,23 +25,28 @@ public class Pajaro implements Runnable{
 		
 		if (iniciarVolar > 3 ) {
 			this.volar = true;
-		}		
-		if (volar == true) {
-			this.velocidad = 10;
-			System.out.println("Pajaro empezo a volar");
-			
-			int volarAlContrario = (int) (Math.random() * 10) + 1;
-			
-			if(volarAlContrario<4) {
+			int volarAlContrario = (int) (Math.random() * 10) + 1;			
+			if(volarAlContrario<4) {				
 				this.velocidad = -10;
-				volarEnSentidoContrario = true;
+				this.distanciaRecorrida+=velocidad;
+				volarARL = true;
 				System.out.println("Oh no, pajaro esta volando en sentido contrario");
+				System.out.println("Pajaro retrocedio a " + distanciaRecorrida + " metros");		
 			}else {
-				volarEnSentidoContrario = false;
+				volarARL = false;
+				this.velocidad = 10;
+				System.out.println("Pajaro empezo a volar");
+				this.distanciaRecorrida += velocidad;
+				System.out.println("Avanzo " + distanciaRecorrida);
 			}
+			
 		}else {
 			System.out.println("Pajaro sigue caminando");
-		}	
+			this.velocidad = 3;
+			this.distanciaRecorrida+=velocidad;
+			System.out.println("Distancia recorrida " + distanciaRecorrida + " metros");
+		}			
+		
 	}
 	
 	public boolean viento () {
@@ -61,40 +64,32 @@ public class Pajaro implements Runnable{
 
 	@Override
 	public void run() {		
-		for (int i = 0; i < 100; i++) {			
-			//Carrera general	
-			volar();
-			viento();
-		//Si el viento esta a favor y el pajaro vuela se añade a la velocidad, si esta volando al contrario le resta 5	
-			if (viento()==true && volar) {
-				distanciaRecorrida += velocidad + 5;
-				System.out.println("Pajaro lleva a" + distanciaRecorrida);
-				
-				if (volarEnSentidoContrario && volar) {
-					distanciaRecorrida+=5;
-					System.out.println("Pajaro lleva b" + distanciaRecorrida);
-				}
-		//Si el viento esta en contra y el pajaro vuelta se resta a la velocidad, si esta volando al contrario le suma velocidad 		
-			}else if (viento()==false && volar) {
-				distanciaRecorrida +=velocidad - 5;
-				System.out.println("Pajaro lleva c" + distanciaRecorrida);
-				
-				if (!volarEnSentidoContrario && volar) {
-					distanciaRecorrida-=5;
-					System.out.println("Pajaro lleva d" + distanciaRecorrida);
-				}
-			}	
+		for (int i = 0; i < 50; i++) {			
+		
 		//Tunel que empieza en el metro 20 y acaba en el 30	
-			try {
+			try {		
 				
-			if (i == 20)	
-				tunel.acquire();
+				if (i == 20)	{
+					tunel.acquire();
+					System.out.println("Pajaro entro en el tunel");
+				}
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}			
+				
+			if (i == 30) {
+				tunel.release();
+				System.out.println("Pajaro salio del tunel");
+			}
+		//Carrera general	
+			volar();
+			
+			try {
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
-			if (i == 30) {
-				tunel.release();
 			}
 		}
 		
